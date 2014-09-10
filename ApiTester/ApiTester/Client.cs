@@ -28,6 +28,10 @@ namespace ApiTester {
         }
     }
 
+    public class ApiActionResult {
+
+    }
+
     public class ApiClient {
         public ApiClient( String baseUrl, IApiLogger logger = null ) {
             BaseUrl = baseUrl;
@@ -101,7 +105,7 @@ namespace ApiTester {
         /// <typeparam name="TResult">Result type</typeparam>
         /// <param name="doc">Draft update data</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse<TResult> UpdateDraft<T, TResult>( T doc ) {
+        public ApiResponse<ApiActionResult> UpdateDraft<T>( T doc ) {
             Log( "UpdateDraft" );
 
             var request = ApiUtils.Post( EnsureToken(), BaseUrl + "/draft" );
@@ -111,7 +115,7 @@ namespace ApiTester {
             else
                 ApiUtils.WriteJson( request, doc );
 
-            return ApiUtils.ReadJson<TResult>( request, Logger );
+            return ApiUtils.ReadJson<ApiActionResult>( request, Logger );
         }
 
         private ApiToken EnsureToken() {

@@ -22,6 +22,7 @@ namespace ApiTester {
         public int StatusCode { get; set; }
     }
 
+
     public interface IApiLogger {
         void Log( string format, params object[] args );
         void NewLine();

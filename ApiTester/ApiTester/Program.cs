@@ -15,7 +15,7 @@ namespace ApiTester {
         static void Main( string[] args ) {
             var client = new ApiClient( "https://login.phonofile.com/api", new ConsoleLogger() );
 
-            client.Authenticate( "magnus-test-200@phonofile.com", "123456" );
+            client.Authenticate( "phonofile-api-test@phonofile.com", "phonofileapitest2014" );
 
             if( client.IsAuthenticated ) {
 
