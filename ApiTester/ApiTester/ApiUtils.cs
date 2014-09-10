@@ -10,18 +10,38 @@ using System.Threading.Tasks;
 using System.Xml;
 
 namespace ApiTester {
-    public class ApiResponse<T> : ApiResponse {
-        public new T Data { get; set; }
-    }
-
-    public class ApiResponse {
-        public dynamic Data { get; set; }
-        public String ErrorMessage { get; set; }
-        public string ErrorDetails { get; set; }
+    public class ApiResponse<T> {
+        public T Data { get; set; }
 
         public int StatusCode { get; set; }
+        public string StatusDescription { get; set; }
+
+        public String ErrorMessage { get; set; }
+        public ApiException Exception { get; set; }
+
+        public string Content { get; set; }
+
+        public bool Ok { get { return StatusCode == 200; } }
     }
 
+    public class ApiException {
+        public String Message { get; set; }
+        public String ExceptionMessage { get; set; }
+        public String StackTrace { get; set; }
+        public ApiException InnerException { get; set; }
+
+        public static string GetErrorMessage( ApiException ex ) {
+            var e = ex;
+
+            if ( e == null )
+                return null;
+
+            while ( e.InnerException != null )
+                e = e.InnerException;
+
+            return e.ExceptionMessage;
+        }
+    }
 
     public interface IApiLogger {
         void Log( string format, params object[] args );
@@ -47,18 +67,53 @@ namespace ApiTester {
         }
     }
 
+    public class ExceptionHelper {
+
+        public static string GetErrorMessage( Exception ex ) {
+            Exception e = GetInner( ex );
+
+            if ( e == null )
+                return "An unknown exception ocurred";
+            else
+                return e.Message;
+        }
+
+        public static Exception GetInner( Exception ex ) {
+            Exception e = ex;
+
+            if ( e == null )
+                return null;
+
+            while ( e.InnerException != null )
+                e = e.InnerException;
+
+            return e;
+        }
+    }
+
     public class ApiUtils {
+        public const string JSON = "application/json; charset=utf-8";
+        public const string XML = "application/xml; charset=utf-8";
+
         public static HttpWebRequest Get( ApiToken token, string url ) {
-            HttpWebRequest request = ( HttpWebRequest )HttpWebRequest.Create( url );
-            request.Method = "GET";
-            request.Headers.Add( "Authorization", token.ToString() );
-            request.PreAuthenticate = true;
-            return request;
+            return CreateRequest( "GET", url, token );
         }
 
         public static HttpWebRequest Post( ApiToken token, string url ) {
+            return CreateRequest( "POST", url, token );
+        }
+
+        public static HttpWebRequest Put( ApiToken token, string url ) {
+            return CreateRequest( "PUT", url, token );
+        }
+
+        public static HttpWebRequest Delete( ApiToken token, string url ) {
+            return CreateRequest( "DELETE", url, token );
+        }
+
+        private static HttpWebRequest CreateRequest( string method, string url, ApiToken token ) {
             HttpWebRequest request = ( HttpWebRequest )HttpWebRequest.Create( url );
-            request.Method = "POST";
+            request.Method = method;
             request.Headers.Add( "Authorization", token.ToString() );
             request.PreAuthenticate = true;
 
@@ -86,7 +141,7 @@ namespace ApiTester {
 
                 var httpResponse = ( HttpWebResponse )request.GetResponse();
 
-                using( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
+                using ( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
                     var raw = sr.ReadToEnd();
                     response.Data = read( raw );
                 }
@@ -95,42 +150,67 @@ namespace ApiTester {
                 response.StatusCode = ( int )httpResponse.StatusCode;
 
                 logger.Log( "Status:\t\t{0}", ( int )response.StatusCode + " " + httpResponse.StatusDescription );
-            }
-            catch( WebException ex ) {
-                response.ErrorMessage = ex.Message;
+            } catch ( WebException ex ) {
+                ReadErrorResponse<T>( response, ex );
 
-                var httpResponse = ( HttpWebResponse )ex.Response;
-                response.StatusCode = ( int )httpResponse.StatusCode;
-
-                using( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
-                    var raw = sr.ReadToEnd();
-                    response.ErrorDetails = raw;
-                }
-
-                logger.Log( "Status:\t\t{0} {1}", response.StatusCode, httpResponse.StatusDescription );
-                logger.Log( "ErrorResponse:\t{0}", response.ErrorDetails );
-            }
-            catch( Exception ex ) {
+                logger.Log( "Status:\t\t{0} {1}", response.StatusCode, response.StatusDescription );
+                logger.Log( "Error:\t\t{0}", response.ErrorMessage );
+            } catch ( Exception ex ) {
                 response.ErrorMessage = ex.Message;
                 logger.Log( "ERROR:\t{0}", ex.Message );
             }
             return response;
         }
 
+        private static void ReadErrorResponse<T>( ApiResponse<T> response, WebException webEx ) {
+
+            try {
+                var httpResponse = ( HttpWebResponse )webEx.Response;
+                response.StatusCode = ( int )httpResponse.StatusCode;
+                response.StatusDescription = httpResponse.StatusDescription;
+
+                using ( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
+                    var raw = sr.ReadToEnd();
+
+                    if ( httpResponse.ContentType == JSON )
+                        response.Exception = JsonConvert.DeserializeObject<ApiException>( raw );
+
+                    response.ErrorMessage = ApiException.GetErrorMessage( response.Exception );
+                    response.Content = raw;
+                }
+            } catch ( Exception ex ) {
+                response.StatusCode = 500;
+                response.ErrorMessage = ExceptionHelper.GetErrorMessage( ex );
+            }
+        }
+
         public static HttpWebRequest WriteXml( HttpWebRequest request, XmlDocument data ) {
-            request.ContentType = "application/xml";
+            request.ContentType = XML;
             var body = request.GetRequestStream();
-            using( var w = XmlWriter.Create( body ) ) {
+            using ( var w = XmlWriter.Create( body /*,new XmlWriterSettings { Encoding = Encoding.UTF8 } */ ) ) {
                 data.WriteTo( w );
             }
             return request;
         }
 
-        public static HttpWebRequest WriteJson( HttpWebRequest request, object data ) {
-            request.ContentType = "application/json";
+        public static HttpWebRequest WriteRaw( HttpWebRequest request, string data ) {
+            if ( data.Trim().StartsWith( "<" ) )
+                request.ContentType = XML;
+            else
+                request.ContentType = JSON;
+
             var body = request.GetRequestStream();
-            using( var tw = new StreamWriter( body ) ) {
-                using( var w = new JsonTextWriter( tw ) ) {
+            using ( var w = new StreamWriter( body, Encoding.UTF8 ) ) {
+                w.Write( data );
+            }
+            return request;
+        }
+
+        public static HttpWebRequest WriteJson( HttpWebRequest request, object data ) {
+            request.ContentType = JSON;
+            var body = request.GetRequestStream();
+            using ( var tw = new StreamWriter( body, Encoding.UTF8 ) ) {
+                using ( var w = new JsonTextWriter( tw ) ) {
                     var json = JsonConvert.SerializeObject( data );
                     w.WriteRaw( json );
                 }

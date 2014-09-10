@@ -29,7 +29,7 @@ namespace ApiTester {
     }
 
     public class ApiActionResult {
-
+        public long ID { get; set; }
     }
 
     public class ApiClient {
@@ -44,7 +44,7 @@ namespace ApiTester {
         public IApiLogger Logger { get; set; }
 
         public ApiResponse<ApiToken> Authenticate( String email, String password ) {
-            Log( "AUTHENTICATE" );
+            LogHeader( "AUTHENTICATE" );
             var url = BaseUrl + "/token";
             var credentials = String.Format( "grant_type=password&username={0}&password={1}", email, password );
 
@@ -64,56 +64,90 @@ namespace ApiTester {
         }
 
         public ApiResponse<T> GetConstants<T>() {
-            Log( "GetConstants" );
+            LogHeader( "GetConstants" );
             var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/constants" );
 
             return ApiUtils.ReadJson<T>( request, Logger );
         }
 
         public ApiResponse<XmlDocument> GetReleaseXml( long id ) {
-            Log( "GetReleaseXml" );
+            LogHeader( "GetReleaseXml" );
             var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/release/" + id );
 
             return ApiUtils.ReadXml( request, Logger );
         }
 
         public ApiResponse<T> GetReleaseJson<T>( long id ) {
-            Log( "GetReleaseJson" );
+            LogHeader( "GetReleaseJson" );
             var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/release/" + id );
 
             return ApiUtils.ReadJson<T>( request, Logger );
         }
 
         public ApiResponse<XmlDocument> GetDraftXml( long id ) {
-            Log( "GetDraftXml" );
+            LogHeader( "GetDraftXml" );
             var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/draft/" + id );
 
             return ApiUtils.ReadXml( request, Logger );
         }
 
         public ApiResponse<T> GetDraftJson<T>( long id ) {
-            Log( "GetDraftJson" );
+            LogHeader( "GetDraftJson" );
             var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/draft/" + id );
 
             return ApiUtils.ReadJson<T>( request, Logger );
         }
 
         /// <summary>
+        /// Creates a new release draft.
+        /// </summary>
+        /// <typeparam name="T">Draft data type</typeparam>
+        /// <param name="doc">Draft creation data</param>
+        public ApiResponse<ApiActionResult> CreateDraft<T>( T doc ) {
+            LogHeader( "CreateDraft" );
+
+            var request = ApiUtils.Put( EnsureToken(), BaseUrl + "/draft" );
+
+            WriteRequestContent<T>( request, doc );
+
+            return ApiUtils.ReadJson<ApiActionResult>( request, Logger );
+        }
+
+        private static void WriteRequestContent<T>( HttpWebRequest request, T doc ) {
+            if ( doc is XmlDocument )
+                ApiUtils.WriteXml( request, doc as XmlDocument );
+            else if ( doc is string )
+                ApiUtils.WriteRaw( request, doc.ToString() );
+            else
+                ApiUtils.WriteJson( request, doc );
+        }
+
+        /// <summary>
         /// Updates an existing release draft.
         /// </summary>
         /// <typeparam name="T">Draft data type</typeparam>
-        /// <typeparam name="TResult">Result type</typeparam>
         /// <param name="doc">Draft update data</param>
-        /// <returns>ApiResponse</returns>
         public ApiResponse<ApiActionResult> UpdateDraft<T>( T doc ) {
-            Log( "UpdateDraft" );
+            LogHeader( "UpdateDraft" );
 
             var request = ApiUtils.Post( EnsureToken(), BaseUrl + "/draft" );
 
-            if ( doc is XmlDocument )
-                ApiUtils.WriteXml( request, doc as XmlDocument );
-            else
-                ApiUtils.WriteJson( request, doc );
+            WriteRequestContent<T>( request, doc );
+
+            return ApiUtils.ReadJson<ApiActionResult>( request, Logger );
+        }
+
+        /// <summary>
+        /// Updates an existing release.
+        /// </summary>
+        /// <typeparam name="T">Release data type</typeparam>
+        /// <param name="doc">Release update data</param>
+        public ApiResponse<ApiActionResult> UpdateRelease<T>( T doc ) {
+            LogHeader( "UpdateRelease" );
+
+            var request = ApiUtils.Post( EnsureToken(), BaseUrl + "/release" );
+
+            WriteRequestContent<T>( request, doc );
 
             return ApiUtils.ReadJson<ApiActionResult>( request, Logger );
         }
@@ -124,15 +158,11 @@ namespace ApiTester {
             return Token;
         }
 
-        private void Log( String val, bool header = true ) {
-
-            if ( header ) {
-                Logger.NewLine();
-                Logger.Log( "--------------------------------------------------------------" );
-            }
+        private void LogHeader( String val ) {
+            Logger.NewLine();
+            Logger.Log( "--------------------------------------------------------------" );
             Logger.Log( val );
-            if ( header )
-                Logger.Log( "--------------------------------------------------------------" );
+            Logger.Log( "--------------------------------------------------------------" );
         }
     }
 }

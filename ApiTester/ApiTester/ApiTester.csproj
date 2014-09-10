@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="ApiUtils.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Examples.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

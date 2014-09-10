@@ -13,21 +13,18 @@ namespace ApiTester {
     class Program {
 
         static void Main( string[] args ) {
-            var client = new ApiClient( "https://login.phonofile.com/api", new ConsoleLogger() );
+            //var apiBaseUrl = "https://login.phonofile.com/api";
+            var apiBaseUrl = "http://localhost/api";
 
+            var client = new ApiClient( apiBaseUrl, new ConsoleLogger() );
             client.Authenticate( "phonofile-api-test@phonofile.com", "phonofileapitest2014" );
 
-            if( client.IsAuthenticated ) {
+            if ( client.IsAuthenticated ) {
 
-                var constsResponse = client.GetConstants<dynamic>();
-
-                var draftResponse = client.GetDraftJson<dynamic>( 439236 );
-
-                draftResponse.Data.title = "TESTER API UPDATE 2";
-                draftResponse.Data.titleVersion = "Tim Cook";
-
-                if( draftResponse.Data != null )
-                    client.UpdateDraft( draftResponse.Data );
+                //Examples.CreateNewRelease( client );
+                //Examples.CreateNewReleaseXml( client );
+                //Examples.UpdateReleaseDraft( client, 439862 );    
+                Examples.UpdateRelease( client, 433886 );
             }
 
             Console.WriteLine();
