@@ -48,12 +48,12 @@ namespace ApiTester {
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             var body = request.GetRequestStream();
-            using( var w = new StreamWriter( body ) ) {
+            using ( var w = new StreamWriter( body ) ) {
                 w.Write( credentials );
             }
 
             var response = ApiUtils.ReadJson<ApiToken>( request, Logger );
-            if( response.Data != null )
+            if ( response.Data != null )
                 Token = response.Data;
 
             return response;
@@ -94,33 +94,40 @@ namespace ApiTester {
             return ApiUtils.ReadJson<T>( request, Logger );
         }
 
-        public ApiResponse UpdateDraft<T>( T doc ) {
+        /// <summary>
+        /// Updates an existing release draft.
+        /// </summary>
+        /// <typeparam name="T">Draft data type</typeparam>
+        /// <typeparam name="TResult">Result type</typeparam>
+        /// <param name="doc">Draft update data</param>
+        /// <returns>ApiResponse</returns>
+        public ApiResponse<TResult> UpdateDraft<T, TResult>( T doc ) {
             Log( "UpdateDraft" );
 
             var request = ApiUtils.Post( EnsureToken(), BaseUrl + "/draft" );
 
-            if( doc is XmlDocument )
+            if ( doc is XmlDocument )
                 ApiUtils.WriteXml( request, doc as XmlDocument );
             else
                 ApiUtils.WriteJson( request, doc );
 
-            return ApiUtils.ReadJson<dynamic>( request, Logger );
+            return ApiUtils.ReadJson<TResult>( request, Logger );
         }
 
         private ApiToken EnsureToken() {
-            if( Token == null )
+            if ( Token == null )
                 throw new InvalidOperationException( "Failed to execute API method. Missing required token. Please authenticate first." );
             return Token;
         }
 
         private void Log( String val, bool header = true ) {
 
-            if( header ) {
+            if ( header ) {
                 Logger.NewLine();
                 Logger.Log( "--------------------------------------------------------------" );
             }
             Logger.Log( val );
-            if( header )
+            if ( header )
                 Logger.Log( "--------------------------------------------------------------" );
         }
     }
