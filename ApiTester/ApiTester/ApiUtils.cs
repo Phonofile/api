@@ -33,10 +33,10 @@ namespace ApiTester {
         public static string GetErrorMessage( ApiException ex ) {
             var e = ex;
 
-            if ( e == null )
+            if( e == null )
                 return null;
 
-            while ( e.InnerException != null )
+            while( e.InnerException != null )
                 e = e.InnerException;
 
             return e.ExceptionMessage;
@@ -67,12 +67,29 @@ namespace ApiTester {
         }
     }
 
+    public class MultiLogger : IApiLogger {
+        public MultiLogger( params IApiLogger[] loggers ) {
+            mLoggers = loggers;
+        }
+        private IApiLogger[] mLoggers;
+
+        public void NewLine() {
+            foreach( var logger in mLoggers )
+                logger.NewLine();
+        }
+
+        public void Log( string format, params object[] args ) {
+            foreach( var logger in mLoggers )
+                logger.Log( format, args );
+        }
+    }
+
     public class ExceptionHelper {
 
         public static string GetErrorMessage( Exception ex ) {
             Exception e = GetInner( ex );
 
-            if ( e == null )
+            if( e == null )
                 return "An unknown exception ocurred";
             else
                 return e.Message;
@@ -81,10 +98,10 @@ namespace ApiTester {
         public static Exception GetInner( Exception ex ) {
             Exception e = ex;
 
-            if ( e == null )
+            if( e == null )
                 return null;
 
-            while ( e.InnerException != null )
+            while( e.InnerException != null )
                 e = e.InnerException;
 
             return e;
@@ -141,7 +158,7 @@ namespace ApiTester {
 
                 var httpResponse = ( HttpWebResponse )request.GetResponse();
 
-                using ( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
+                using( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
                     var raw = sr.ReadToEnd();
                     response.Data = read( raw );
                 }
@@ -150,12 +167,14 @@ namespace ApiTester {
                 response.StatusCode = ( int )httpResponse.StatusCode;
 
                 logger.Log( "Status:\t\t{0}", ( int )response.StatusCode + " " + httpResponse.StatusDescription );
-            } catch ( WebException ex ) {
+            }
+            catch( WebException ex ) {
                 ReadErrorResponse<T>( response, ex );
 
                 logger.Log( "Status:\t\t{0} {1}", response.StatusCode, response.StatusDescription );
                 logger.Log( "Error:\t\t{0}", response.ErrorMessage );
-            } catch ( Exception ex ) {
+            }
+            catch( Exception ex ) {
                 response.ErrorMessage = ex.Message;
                 logger.Log( "ERROR:\t{0}", ex.Message );
             }
@@ -165,20 +184,28 @@ namespace ApiTester {
         private static void ReadErrorResponse<T>( ApiResponse<T> response, WebException webEx ) {
 
             try {
+                response.ErrorMessage = ExceptionHelper.GetErrorMessage( webEx );
+                response.StatusCode = 500;
+                response.StatusDescription = "ERROR";
+
                 var httpResponse = ( HttpWebResponse )webEx.Response;
-                response.StatusCode = ( int )httpResponse.StatusCode;
-                response.StatusDescription = httpResponse.StatusDescription;
+                if( httpResponse != null ) {
+                    response.StatusCode = ( int )httpResponse.StatusCode;
+                    response.StatusDescription = httpResponse.StatusDescription;
 
-                using ( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
-                    var raw = sr.ReadToEnd();
+                    using( StreamReader sr = new StreamReader( httpResponse.GetResponseStream() ) ) {
+                        response.Content = sr.ReadToEnd();
 
-                    if ( httpResponse.ContentType == JSON )
-                        response.Exception = JsonConvert.DeserializeObject<ApiException>( raw );
+                        if( httpResponse.ContentType == JSON ) {
+                            response.Exception = JsonConvert.DeserializeObject<ApiException>( response.Content );
 
-                    response.ErrorMessage = ApiException.GetErrorMessage( response.Exception );
-                    response.Content = raw;
+                            if( response.Exception != null )
+                                response.ErrorMessage = ApiException.GetErrorMessage( response.Exception );
+                        }
+                    }
                 }
-            } catch ( Exception ex ) {
+            }
+            catch( Exception ex ) {
                 response.StatusCode = 500;
                 response.ErrorMessage = ExceptionHelper.GetErrorMessage( ex );
             }
@@ -187,20 +214,20 @@ namespace ApiTester {
         public static HttpWebRequest WriteXml( HttpWebRequest request, XmlDocument data ) {
             request.ContentType = XML;
             var body = request.GetRequestStream();
-            using ( var w = XmlWriter.Create( body /*,new XmlWriterSettings { Encoding = Encoding.UTF8 } */ ) ) {
+            using( var w = XmlWriter.Create( body /*,new XmlWriterSettings { Encoding = Encoding.UTF8 } */ ) ) {
                 data.WriteTo( w );
             }
             return request;
         }
 
         public static HttpWebRequest WriteRaw( HttpWebRequest request, string data ) {
-            if ( data.Trim().StartsWith( "<" ) )
+            if( data.Trim().StartsWith( "<" ) )
                 request.ContentType = XML;
             else
                 request.ContentType = JSON;
 
             var body = request.GetRequestStream();
-            using ( var w = new StreamWriter( body, Encoding.UTF8 ) ) {
+            using( var w = new StreamWriter( body, Encoding.UTF8 ) ) {
                 w.Write( data );
             }
             return request;
@@ -209,8 +236,8 @@ namespace ApiTester {
         public static HttpWebRequest WriteJson( HttpWebRequest request, object data ) {
             request.ContentType = JSON;
             var body = request.GetRequestStream();
-            using ( var tw = new StreamWriter( body, Encoding.UTF8 ) ) {
-                using ( var w = new JsonTextWriter( tw ) ) {
+            using( var tw = new StreamWriter( body, Encoding.UTF8 ) ) {
+                using( var w = new JsonTextWriter( tw ) ) {
                     var json = JsonConvert.SerializeObject( data );
                     w.WriteRaw( json );
                 }

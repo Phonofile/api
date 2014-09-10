@@ -16,7 +16,9 @@ namespace ApiTester {
             //var apiBaseUrl = "https://login.phonofile.com/api";
             var apiBaseUrl = "http://localhost/api";
 
-            var client = new ApiClient( apiBaseUrl, new ConsoleLogger() );
+            var logger = new MultiLogger(new ConsoleLogger(), new VsOutputLogger());
+
+            var client = new ApiClient( apiBaseUrl, logger );
             client.Authenticate( "phonofile-api-test@phonofile.com", "phonofileapitest2014" );
 
             if ( client.IsAuthenticated ) {

@@ -41,7 +41,11 @@ namespace ApiTester {
                     <genreID>1</genreID>
                     <labelName>Test Label 4</labelName>
                     <title>Test test</title>
-                    <titleLanguage>en</titleLanguage>
+                    <tracks>
+                        <track>
+                            <title>Test track 1</title>
+                        </track>
+                    </tracks>
                     <upc>123456789</upc>
                 </release>";
 
@@ -83,7 +87,7 @@ namespace ApiTester {
                 var release = response.Data;
 
                 var title = release.DocumentElement.SelectSingleNode( "title" );
-                title.InnerText = "New title";
+                title.InnerText = "New release title";
 
                 var updateResponse = client.UpdateRelease( release );
 
