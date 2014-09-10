@@ -1,4 +1,4 @@
-api
+Phonofile API
 ===
 
-The Phonofile API
+Provides access to your Phonofile account
