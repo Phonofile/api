@@ -23,9 +23,10 @@ namespace ApiClientExample {
                 //Examples.CreateNewReleaseXml( client );
                 //Examples.UpdateReleaseDraft( client, 439862 );    
                 //Examples.UpdateRelease( client, 433886 );
-                Examples.UpdateContributor( client );
+                //Examples.UpdateContributor( client );
                 //Examples.GetContributors( client );                
                 //Examples.GetOrCreateContributor( client );
+                Examples.GetReleaseLinks( client );
                 //Examples.UploadContributorImage( client );
             }
 

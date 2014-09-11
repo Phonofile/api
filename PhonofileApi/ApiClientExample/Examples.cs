@@ -79,6 +79,27 @@ namespace ApiClientExample {
         }
 
         /// <summary>
+        /// Get all external links for a given release.
+        /// </summary>
+        public static void GetReleaseLinks( ApiClient client ) {
+            var response = client.GetReleaseLinks( 437596 );
+            if ( response.Ok ) {
+                var links = response.Data;
+
+                client.Logger.NewLine();
+                client.Logger.Log( "LINKS" );
+                client.Logger.Divider();
+                client.Logger.Log( "ItemID\t| Type\t\t| Service\t| Link" );
+                client.Logger.Divider();
+                foreach ( var link in links ) {
+                    var type = link.Type == "1" ? "Release" : "Track";
+
+                    client.Logger.Log( "{0}\t| {1}\t\t| {2}\t| {3}", link.ItemID, type, link.ServiceName, link.WebUri );
+                }
+            }
+        }
+
+        /// <summary>
         /// Get all contributors.
         /// Great for syncing with your own system
         /// </summary>
