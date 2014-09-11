@@ -12,16 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7B5CCA
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phonofile.Api", "Phonofile.Api\Phonofile.Api.csproj", "{EAA96C3A-A18D-4C67-8F06-B25B641EFAE9}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.phonofile.com/tfs/phonofile
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ApiTester\\ApiTester.csproj
-		SccProjectName1 = ApiTester
-		SccLocalPath1 = ApiTester
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -31,6 +24,10 @@ Global
 		{3E1C0A82-F921-48FF-BA66-49F494FE9FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E1C0A82-F921-48FF-BA66-49F494FE9FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E1C0A82-F921-48FF-BA66-49F494FE9FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA96C3A-A18D-4C67-8F06-B25B641EFAE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA96C3A-A18D-4C67-8F06-B25B641EFAE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA96C3A-A18D-4C67-8F06-B25B641EFAE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA96C3A-A18D-4C67-8F06-B25B641EFAE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

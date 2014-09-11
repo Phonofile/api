@@ -1,13 +1,6 @@
-﻿using ApiTester;
-using Newtonsoft.Json;
+﻿using Phonofile.Api;
+using Phonofile.Api.Loggers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace ApiTester {
     class Program {
@@ -15,19 +8,25 @@ namespace ApiTester {
         static void Main( string[] args ) {
             //var apiBaseUrl = "https://login.phonofile.com/api";
             var apiBaseUrl = "http://localhost/api";
+            //var apiBaseUrl = "https://staging.phonofile.com/api";
 
             var logger = new MultiLogger( new ConsoleLogger(), new VsOutputLogger() );
 
             var client = new ApiClient( apiBaseUrl, logger );
             client.Authenticate( "phonofile-api-test@phonofile.com", "phonofileapitest2014" );
 
-            if( client.IsAuthenticated ) {
+            if ( client.IsAuthenticated ) {
 
+                //Examples.GetAccount( client );
+                //Examples.GetGenres( client );
                 //Examples.CreateNewRelease( client );
                 //Examples.CreateNewReleaseXml( client );
                 //Examples.UpdateReleaseDraft( client, 439862 );    
                 //Examples.UpdateRelease( client, 433886 );
-                Examples.GetContributors( client );
+                Examples.UpdateContributor( client );
+                //Examples.GetContributors( client );                
+                //Examples.GetOrCreateContributor( client );
+                //Examples.UploadContributorImage( client );
             }
 
             Console.WriteLine();
