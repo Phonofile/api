@@ -21,7 +21,7 @@ namespace ApiTester {
                 labelID = 6091
             } );
 
-            if ( response.Ok ) {
+            if( response.Ok ) {
                 var releaseId = response.Data.ID;
 
                 client.Logger.Log( "New release created - ID: {0}", releaseId );
@@ -51,20 +51,32 @@ namespace ApiTester {
 
             var response = client.CreateDraft( xml );
 
-            if ( response.Ok ) {
+            if( response.Ok ) {
                 var releaseId = response.Data.ID;
 
                 client.Logger.Log( "New release created - ID: {0}", releaseId );
             }
         }
 
+        /// <summary>
+        /// Get all contributors.
+        /// </summary>
+        public static void GetContributors( ApiClient client ) {
+            var response = client.GetContributors(1217);
+            if( response.Ok ) {
+                var contributors = response.Data;
+
+                foreach( var contributor in response.Data.Contributors )
+                    client.Logger.Log( "{0}: {1}", contributor.ID, contributor.Name );
+            }
+        }
 
         /// <summary>
         /// Updates an existing release draft.
         /// </summary>
         public static void UpdateReleaseDraft( ApiClient client, long id ) {
             var draftResponse = client.GetDraftXml( id );
-            if ( draftResponse.Ok ) {
+            if( draftResponse.Ok ) {
                 var draft = draftResponse.Data;
 
                 var title = draft.DocumentElement.SelectSingleNode( "title" );
@@ -72,7 +84,7 @@ namespace ApiTester {
 
                 var updateResponse = client.UpdateDraft( draft );
 
-                if ( updateResponse.Ok ) {
+                if( updateResponse.Ok ) {
                     client.Logger.Log( "Release draft {0} - updated", id );
                 }
             }
@@ -82,17 +94,19 @@ namespace ApiTester {
         /// Updates an existing release.
         /// </summary>
         public static void UpdateRelease( ApiClient client, long id ) {
-            var response = client.GetReleaseXml( id );
-            if ( response.Ok ) {
-                var release = response.Data;
+            var getResponse = client.GetRelease<dynamic>( id );
+            if( getResponse.Ok ) {
+                var existingRelease = getResponse.Data;
+                existingRelease.title = "New release title";
 
-                var title = release.DocumentElement.SelectSingleNode( "title" );
-                title.InnerText = "New release title";
+                var updateResponse = client.UpdateRelease( existingRelease );
 
-                var updateResponse = client.UpdateRelease( release );
-
-                if ( updateResponse.Ok ) {
-                    client.Logger.Log( "Release {0} - updated", id );
+                if( updateResponse.Ok ) {
+                    client.Logger.NewLine();
+                    client.Logger.Log( "Release {0} updated", id );
+                    foreach( var change in updateResponse.Data.Changes )
+                        client.Logger.Log( "{0}.{1}:\t\t\"{2}\"\t\t->\t\"{3}\"",
+                            change.SubjectType, change.FieldName, change.OriginalValue, change.NewValue );
                 }
             }
         }

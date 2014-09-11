@@ -16,17 +16,18 @@ namespace ApiTester {
             //var apiBaseUrl = "https://login.phonofile.com/api";
             var apiBaseUrl = "http://localhost/api";
 
-            var logger = new MultiLogger(new ConsoleLogger(), new VsOutputLogger());
+            var logger = new MultiLogger( new ConsoleLogger(), new VsOutputLogger() );
 
             var client = new ApiClient( apiBaseUrl, logger );
             client.Authenticate( "phonofile-api-test@phonofile.com", "phonofileapitest2014" );
 
-            if ( client.IsAuthenticated ) {
+            if( client.IsAuthenticated ) {
 
                 //Examples.CreateNewRelease( client );
                 //Examples.CreateNewReleaseXml( client );
                 //Examples.UpdateReleaseDraft( client, 439862 );    
-                Examples.UpdateRelease( client, 433886 );
+                //Examples.UpdateRelease( client, 433886 );
+                Examples.GetContributors( client );
             }
 
             Console.WriteLine();

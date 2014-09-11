@@ -32,6 +32,39 @@ namespace ApiTester {
         public long ID { get; set; }
     }
 
+    public class ApiUpdateResult {
+        public Change[] Changes { get; set; }
+
+        public class Change {
+            public String SubjectTitle { get; set; }
+            public String SubjectId { get; set; }
+            public String SubjectType { get; set; }
+
+            public String FieldName { get; set; }
+            public String OriginalValue { get; set; }
+            public String NewValue { get; set; }
+
+            public override string ToString() {
+                return SubjectType + "." + FieldName + ": " + OriginalValue + " -> " + NewValue;
+            }
+        }
+    }
+
+    public class ApiContributor {
+        public long ID { get; set; }
+        public long ArtistID { get; set; }
+        public String Name { get; set; }
+        public bool PublicDomain { get; set; }
+    }
+
+    public class ApiPublisher : ApiContributor {
+    }
+
+    public class ApiContributorsResult {
+        public ApiContributor[] Contributors { get; set; }
+        public ApiPublisher[] Publishers { get; set; }
+    }
+
     public class ApiClient {
         public ApiClient( String baseUrl, IApiLogger logger = null ) {
             BaseUrl = baseUrl;
@@ -52,12 +85,12 @@ namespace ApiTester {
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             var body = request.GetRequestStream();
-            using ( var w = new StreamWriter( body ) ) {
+            using( var w = new StreamWriter( body ) ) {
                 w.Write( credentials );
             }
 
             var response = ApiUtils.ReadJson<ApiToken>( request, Logger );
-            if ( response.Data != null )
+            if( response.Data != null )
                 Token = response.Data;
 
             return response;
@@ -66,6 +99,20 @@ namespace ApiTester {
         public ApiResponse<T> GetConstants<T>() {
             LogHeader( "GetConstants" );
             var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/constants" );
+
+            return ApiUtils.ReadJson<T>( request, Logger );
+        }
+
+        public ApiResponse<ApiContributorsResult> GetContributors( long companyId ) {
+            LogHeader( "GetContributors" );
+            var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/contributorlookup/" + companyId );
+
+            return ApiUtils.ReadJson<ApiContributorsResult>( request, Logger );
+        }
+
+        public ApiResponse<T> GetRelease<T>( long id ) {
+            LogHeader( "GetRelease" );
+            var request = ApiUtils.Get( EnsureToken(), BaseUrl + "/release/" + id );
 
             return ApiUtils.ReadJson<T>( request, Logger );
         }
@@ -114,9 +161,9 @@ namespace ApiTester {
         }
 
         private static void WriteRequestContent<T>( HttpWebRequest request, T doc ) {
-            if ( doc is XmlDocument )
+            if( doc is XmlDocument )
                 ApiUtils.WriteXml( request, doc as XmlDocument );
-            else if ( doc is string )
+            else if( doc is string )
                 ApiUtils.WriteRaw( request, doc.ToString() );
             else
                 ApiUtils.WriteJson( request, doc );
@@ -142,18 +189,18 @@ namespace ApiTester {
         /// </summary>
         /// <typeparam name="T">Release data type</typeparam>
         /// <param name="doc">Release update data</param>
-        public ApiResponse<ApiActionResult> UpdateRelease<T>( T doc ) {
+        public ApiResponse<ApiUpdateResult> UpdateRelease<T>( T doc ) {
             LogHeader( "UpdateRelease" );
 
             var request = ApiUtils.Post( EnsureToken(), BaseUrl + "/release" );
 
             WriteRequestContent<T>( request, doc );
 
-            return ApiUtils.ReadJson<ApiActionResult>( request, Logger );
+            return ApiUtils.ReadJson<ApiUpdateResult>( request, Logger );
         }
 
         private ApiToken EnsureToken() {
-            if ( Token == null )
+            if( Token == null )
                 throw new InvalidOperationException( "Failed to execute API method. Missing required token. Please authenticate first." );
             return Token;
         }
