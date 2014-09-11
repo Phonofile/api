@@ -1,4 +1,4 @@
 Phonofile API
 ===
 
-Provides access to your Phonofile account
+A REST service for accessing your Phonofile account
