@@ -21,12 +21,13 @@ namespace ApiClientExample {
                 //Examples.GetGenres( client );
                 //Examples.CreateNewRelease( client );
                 //Examples.CreateNewReleaseXml( client );
+                Examples.CreateNewReleaseFromFile( client );
                 //Examples.UpdateReleaseDraft( client, 439862 );    
                 //Examples.UpdateRelease( client, 433886 );
                 //Examples.UpdateContributor( client );
                 //Examples.GetContributors( client );                
                 //Examples.GetOrCreateContributor( client );
-                Examples.GetReleaseLinks( client );
+                //Examples.GetReleaseLinks( client );
                 //Examples.UploadContributorImage( client );
             }
 

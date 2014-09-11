@@ -1,0 +1,344 @@
+<release xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <active>false</active>
+  <cLine>2014 TEST LABEL</cLine>
+  <companyID>1217</companyID>
+  <companyName>TEST COMPANY</companyName>
+  <compilation i:nil="true" />
+  <compilationArtistName i:nil="true" />
+  <countryID>578</countryID>
+  <created>2014-09-11T15:19:45.656386</created>
+  <defaultPriceCodeID>4</defaultPriceCodeID>
+  <defaultTrackPriceCodeID>7</defaultTrackPriceCodeID>
+  <displayArtist>Test Artist</displayArtist>
+  <genreID>85</genreID>
+  <id>439925</id>
+  <labelID>3024</labelID>
+  <labelName>TEST LABEL</labelName>
+  <modified>2014-09-11T15:24:07.115738</modified>
+  <originalReleaseDate>2014-09-11T00:00:00</originalReleaseDate>
+  <originalReleaseYear>2014</originalReleaseYear>
+  <pLine>2014 TEST LABEL</pLine>
+  <releaseDate>2014-09-11T00:00:00</releaseDate>
+  <releaseTerritoryID>1</releaseTerritoryID>
+  <title>Test Release</title>
+  <titleLanguage>en</titleLanguage>
+  <type>Album</type>
+  <upc i:nil="true" />
+  <contributors>
+    <contributor>
+      <artistID>96468</artistID>
+      <contributorID>535167</contributorID>
+      <name>Test Artist</name>
+      <role>MainArtist</role>
+    </contributor>
+    <contributor>
+      <artistID>317609</artistID>
+      <contributorID>535169</contributorID>
+      <name>Test Composer</name>
+      <role>Composer</role>
+    </contributor>
+  </contributors>
+  <deliveryRules>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>20</serviceID>
+      <serviceName>24-7 Entertainment</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>63</serviceID>
+      <serviceName>All Music Guide / Rovi</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>62</serviceID>
+      <serviceName>Amazon</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>19</serviceID>
+      <serviceName>Basepoint</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>70</serviceID>
+      <serviceName>Beatport</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>3363</serviceID>
+      <serviceName>Beats Music</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>336</serviceID>
+      <serviceName>Bleep</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+    <rule>
+      <enabled>true</enabled>
+      <priceCodeID>4</priceCodeID>
+      <releaseDate>2014-09-11T00:00:00</releaseDate>
+      <releaseTerritoryExpression>World</releaseTerritoryExpression>
+      <releaseTerritoryID>1</releaseTerritoryID>
+      <serviceID>3328</serviceID>
+      <serviceName>Zvooq</serviceName>
+      <trackPriceCodeID>7</trackPriceCodeID>
+    </rule>
+  </deliveryRules>
+  <descriptors>
+    <descriptor>
+      <language>en</language>
+      <typeID>1</typeID>
+      <value>This is a test description</value>
+    </descriptor>
+    <descriptor>
+      <language>en</language>
+      <typeID>2</typeID>
+      <value></value>
+    </descriptor>
+    <descriptor>
+      <language>en</language>
+      <typeID>3</typeID>
+      <value></value>
+    </descriptor>
+  </descriptors>
+  <editorVersion>2</editorVersion>
+  <resources i:nil="true" />
+  <tracks>
+    <track>
+      <cdNumber>1</cdNumber>
+      <displayArtist i:nil="true" />
+      <duration>0</duration>
+      <id>1045411</id>
+      <isrc>NOAPI0000001</isrc>
+      <primaryGenreID>85</primaryGenreID>
+      <title>Track 1</title>
+      <trackNumber>1</trackNumber>
+      <audioFiles />
+      <contributors>
+        <contributor>
+          <artistID>96468</artistID>
+          <contributorID>535167</contributorID>
+          <name>Test Artist</name>
+          <role>MainArtist</role>
+        </contributor>
+        <contributor>
+          <artistID>317608</artistID>
+          <contributorID>535168</contributorID>
+          <name>Test Contributor</name>
+          <role>Performer</role>
+        </contributor>
+        <contributor>
+          <artistID>317609</artistID>
+          <contributorID>535169</contributorID>
+          <name>Test Composer</name>
+          <role>Composer</role>
+          <publisherID>17206</publisherID>
+        </contributor>
+      </contributors>
+      <prelistenStart>30000</prelistenStart>
+      <publishers>
+        <publisher>
+          <id>17206</id>
+          <name>test publisher</name>
+        </publisher>
+      </publishers>
+      <titleLanguage>en</titleLanguage>
+    </track>
+    <track>
+      <cdNumber>1</cdNumber>
+      <displayArtist i:nil="true" />
+      <duration>0</duration>
+      <id>1045412</id>
+      <isrc>NOAPI0000002</isrc>
+      <primaryGenreID>85</primaryGenreID>
+      <title>Track 2</title>
+      <trackNumber>2</trackNumber>
+      <audioFiles />
+      <contributors>
+        <contributor>
+          <artistID>96468</artistID>
+          <contributorID>535167</contributorID>
+          <name>Test Artist</name>
+          <role>MainArtist</role>
+        </contributor>
+        <contributor>
+          <artistID>317608</artistID>
+          <contributorID>535168</contributorID>
+          <name>Test Contributor</name>
+          <role>Performer</role>
+        </contributor>
+        <contributor>
+          <artistID>317609</artistID>
+          <contributorID>535169</contributorID>
+          <name>Test Composer</name>
+          <role>Composer</role>
+          <publisherID>17206</publisherID>
+        </contributor>
+      </contributors>
+      <prelistenStart>30000</prelistenStart>
+      <publishers>
+        <publisher>
+          <id>17206</id>
+          <name>test publisher</name>
+        </publisher>
+      </publishers>
+      <titleLanguage>en</titleLanguage>
+    </track>
+    <track>
+      <cdNumber>1</cdNumber>
+      <displayArtist i:nil="true" />
+      <duration>0</duration>
+      <id>1045413</id>
+      <isrc>NOAPI0000003</isrc>
+      <primaryGenreID>85</primaryGenreID>
+      <title>Track 3</title>
+      <trackNumber>3</trackNumber>
+      <audioFiles />
+      <contributors>
+        <contributor>
+          <artistID>96468</artistID>
+          <contributorID>535167</contributorID>
+          <name>Test Artist</name>
+          <role>MainArtist</role>
+        </contributor>
+        <contributor>
+          <artistID>317608</artistID>
+          <contributorID>535168</contributorID>
+          <name>Test Contributor</name>
+          <role>Performer</role>
+        </contributor>
+        <contributor>
+          <artistID>317609</artistID>
+          <contributorID>535169</contributorID>
+          <name>Test Composer</name>
+          <role>Composer</role>
+          <publisherID>17206</publisherID>
+        </contributor>
+      </contributors>
+      <prelistenStart>30000</prelistenStart>
+      <publishers>
+        <publisher>
+          <id>17206</id>
+          <name>test publisher</name>
+        </publisher>
+      </publishers>
+      <titleLanguage>en</titleLanguage>
+    </track>
+    <track>
+      <cdNumber>1</cdNumber>
+      <displayArtist i:nil="true" />
+      <duration>0</duration>
+      <id>1045414</id>
+      <isrc>NOAPI0000004</isrc>
+      <primaryGenreID>85</primaryGenreID>
+      <title>Track 4</title>
+      <trackNumber>4</trackNumber>
+      <audioFiles />
+      <contributors>
+        <contributor>
+          <artistID>96468</artistID>
+          <contributorID>535167</contributorID>
+          <name>Test Artist</name>
+          <role>MainArtist</role>
+        </contributor>
+        <contributor>
+          <artistID>317608</artistID>
+          <contributorID>535168</contributorID>
+          <name>Test Contributor</name>
+          <role>Performer</role>
+        </contributor>
+        <contributor>
+          <artistID>317609</artistID>
+          <contributorID>535169</contributorID>
+          <name>Test Composer</name>
+          <role>Composer</role>
+          <publisherID>17206</publisherID>
+        </contributor>
+      </contributors>
+      <prelistenStart>30000</prelistenStart>
+      <publishers>
+        <publisher>
+          <id>17206</id>
+          <name>test publisher</name>
+        </publisher>
+      </publishers>
+      <titleLanguage>en</titleLanguage>
+    </track>
+    <track>
+      <cdNumber>1</cdNumber>
+      <displayArtist i:nil="true" />
+      <duration>0</duration>
+      <id>1045415</id>
+      <isrc>NOAPI0000005</isrc>
+      <primaryGenreID>85</primaryGenreID>
+      <title>Track 5</title>
+      <trackNumber>5</trackNumber>
+      <audioFiles />
+      <contributors>
+        <contributor>
+          <artistID>96468</artistID>
+          <contributorID>535167</contributorID>
+          <name>Test Artist</name>
+          <role>MainArtist</role>
+        </contributor>
+        <contributor>
+          <artistID>317608</artistID>
+          <contributorID>535168</contributorID>
+          <name>Test Contributor</name>
+          <role>Performer</role>
+        </contributor>
+        <contributor>
+          <artistID>317609</artistID>
+          <contributorID>535169</contributorID>
+          <name>Test Composer</name>
+          <role>Composer</role>
+          <publisherID>17206</publisherID>
+        </contributor>
+      </contributors>
+      <prelistenStart>30000</prelistenStart>
+      <publishers>
+        <publisher>
+          <id>17206</id>
+          <name>test publisher</name>
+        </publisher>
+      </publishers>
+      <titleLanguage>en</titleLanguage>
+    </track>
+  </tracks>
+</release>

@@ -2,7 +2,10 @@
 using Phonofile.Api.Models;
 using Phonofile.Api.Results;
 using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Xml;
 
 namespace ApiClientExample {
     public static class Examples {
@@ -56,6 +59,24 @@ namespace ApiClientExample {
                 client.Logger.Log( "New release created ID: {0}", releaseId );
             }
         }
+
+        /// <summary>
+        /// Creates a new release using XML. 
+        /// The result is a new release id
+        /// </summary>
+        public static void CreateNewReleaseFromFile( ApiClient client ) {
+            var doc = new XmlDocument();
+            doc.Load( Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "new-release.xml" ) );
+
+            var response = client.CreateDraft( doc );
+
+            if ( response.Ok ) {
+                var releaseId = response.Data.ID;
+
+                client.Logger.Log( "New release created ID: {0}", releaseId );
+            }
+        }
+
 
         /// <summary>
         /// Get all genres.
