@@ -82,7 +82,7 @@ namespace ApiClientExample {
         /// Get all external links for a given release.
         /// </summary>
         public static void GetReleaseLinks( ApiClient client ) {
-            var response = client.GetReleaseLinks( 437596 );
+            var response = client.GetReleaseLinks( 433886 );
             if ( response.Ok ) {
                 var links = response.Data;
 
@@ -179,6 +179,21 @@ namespace ApiClientExample {
                     client.Logger.Log( "Uploaded image successfully for contributor: {0}", contributor.ID );
                 }
             }
+        }
+
+        /// <summary>
+        /// Upload a draft cover
+        /// </summary>
+        public static void UploadDraftCoverImage( ApiClient client ) {
+            var image = ApiResource.CoverImage( 439862, @"c:\test\cover.jpg" );
+
+            var uploadResponse = client.UploadResource( image );
+
+            if ( uploadResponse.Ok ) {
+
+                client.Logger.Log( "Uploaded image successfully for draft: {0}", 439862 );
+            }
+
         }
 
         /// <summary>
