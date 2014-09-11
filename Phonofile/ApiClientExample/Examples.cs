@@ -4,7 +4,7 @@ using Phonofile.Api.Results;
 using System;
 using System.Linq;
 
-namespace ApiTester {
+namespace ApiClientExample {
     public static class Examples {
 
         /// <summary>

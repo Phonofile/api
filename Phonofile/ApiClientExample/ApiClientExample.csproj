@@ -7,8 +7,8 @@
     <ProjectGuid>{3E1C0A82-F921-48FF-BA66-49F494FE9FF0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Phonofile.Api</RootNamespace>
-    <AssemblyName>ApiTester</AssemblyName>
+    <RootNamespace>ApiClientExample</RootNamespace>
+    <AssemblyName>ApiClientExample</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

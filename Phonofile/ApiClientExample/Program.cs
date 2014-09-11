@@ -2,7 +2,7 @@
 using Phonofile.Api.Loggers;
 using System;
 
-namespace ApiTester {
+namespace ApiClientExample {
     class Program {
 
         static void Main( string[] args ) {
