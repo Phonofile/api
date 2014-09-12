@@ -6,8 +6,7 @@ namespace ApiClientExample {
     class Program {
 
         static void Main( string[] args ) {
-            //var apiBaseUrl = "https://login.phonofile.com/api";
-            var apiBaseUrl = "http://localhost/api";
+            var apiBaseUrl = "https://login.phonofile.com/api";
             //var apiBaseUrl = "https://staging.phonofile.com/api";
 
             var logger = new MultiLogger( new ConsoleLogger(), new VsOutputLogger() );
@@ -21,7 +20,7 @@ namespace ApiClientExample {
                 //Examples.GetGenres( client );
                 //Examples.CreateNewRelease( client );
                 //Examples.CreateNewReleaseXml( client );
-                Examples.CreateNewReleaseFromFile( client );
+                //Examples.CreateNewReleaseFromFile( client );
                 //Examples.UpdateReleaseDraft( client, 439862 );    
                 //Examples.UpdateRelease( client, 433886 );
                 //Examples.UpdateContributor( client );
