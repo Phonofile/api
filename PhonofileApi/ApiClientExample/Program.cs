@@ -13,7 +13,7 @@ namespace ApiClientExample {
             var logger = new MultiLogger( new ConsoleLogger(), new VsOutputLogger() );
 
             var client = new ApiClient( apiBaseUrl, logger );
-            client.Authenticate( "phonofile-api-test@phonofile.com", "phonofileapitest2014" );
+            client.Authenticate( "test@test.com", "password" );
 
             if ( client.IsAuthenticated ) {
 
